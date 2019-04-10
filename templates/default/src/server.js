@@ -56,13 +56,13 @@ server
             <script>window.__APOLLO_STATE__=${JSON.stringify(initialState).replace(/</g, '\\u003c')}</script>
             <!-- Global site tag (gtag.js) - Google Analytics -->
             <!-- Replace GA tag with your own - this one tracks graze installs -->
-            <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117500261-2"></script>
+            <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138092593-2"></script>
             <script>
               window.dataLayer = window.dataLayer || []
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date())
               
-              gtag('config', 'UA-117500261-2')
+              gtag('config', 'UA-138092593-2')
               </script>
         </body>
     </html>`
