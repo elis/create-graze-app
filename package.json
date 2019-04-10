@@ -15,7 +15,7 @@
   "bin": {
     "create-graze-app": "./bin/create-graze-app"
   },
-  "website": "http://graze.site",
+  "homepage": "http://graze.site",
   "dependencies": {
     "ansi-escapes": "^2.0.0",
     "chalk": "^1.1.3",
