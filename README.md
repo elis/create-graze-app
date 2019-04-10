@@ -30,3 +30,9 @@ or
 yarn create graze-app --example with-preact my-preact-app
 cd my-preact-app
 ```
+
+## GraphCMS Model
+
+To run the preset that comes with the default setup your GraphCMS will need at least one model type called "Site".
+
+Create a new model called "Site", and add two fields to it, "name" and "description" (both strings).

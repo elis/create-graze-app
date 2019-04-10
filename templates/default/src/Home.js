@@ -40,8 +40,6 @@ const page = gql`
       description
     }
   }
-
-
 `
 
 export default graphql(page)(Home)
