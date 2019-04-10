@@ -1,0 +1,38 @@
+#! /usr/bin/env node
+
+const chalk = require('chalk');
+const program = require('commander');
+const lib = require('..');
+const pkg = require('../package.json');
+
+const messages = lib.messages;
+const createGrazeApp = lib.createGrazeApp;
+
+let projectName;
+let herokuApp;
+let graphCms;
+
+program
+  .version(pkg.version)
+  .arguments('<project-directory> [heroku-app] [graphcms-api]')
+  .usage(`${chalk.green('<project-directory>')} [options]`)
+  .option('-e, --example <example-path>', messages.exampleHelp())
+  .option('-a, --app <heroku-app>', messages.herokuAppHelp())
+  .option('-c, --cms <graphcms-api>', messages.herokuAppHelp())
+  .allowUnknownOption()
+  .on('--help', messages.help)
+  .action(function(name, app, cms, cmd) {
+    projectName = name;
+    herokuApp = app || cmd.app;
+    graphCms = cms || cmd.cms;
+  })
+  .parse(process.argv);
+
+const example = program.example;
+
+createGrazeApp({
+  projectName,
+  example,
+  herokuApp,
+  graphCms
+});
