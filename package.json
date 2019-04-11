@@ -1,6 +1,6 @@
 {
   "name": "create-graze-app",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "CLI tool to bootstrap Graze applications with no configuration",
   "main": "index.js",
   "license": "MIT",
