@@ -1,16 +1,27 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { ApolloProvider } from 'react-apollo'
+import { createGlobalStyle } from 'styled-components'
 
 import Home from './Home';
-import './App.css';
+
+const Styles = createGlobalStyle`
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+  }
+`
 
 const App = ({client, ...props}) => (
-  <ApolloProvider client={client}>
-    <Switch>
-      <Route exact path="/" component={Home} />
-    </Switch>
-  </ApolloProvider>
+  <React.Fragment>
+    <Styles />
+    <ApolloProvider client={client}>
+      <Switch>
+        <Route exact path="/" component={Home} />
+      </Switch>
+    </ApolloProvider>
+  </React.Fragment>
 );
 
 export default App;

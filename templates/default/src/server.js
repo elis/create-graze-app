@@ -5,6 +5,7 @@ import express from 'express'
 import { getClient } from './services/graphcms'
 import { renderToStringWithData } from 'react-apollo'
 import fetch from 'node-fetch'
+import { ServerStyleSheet } from 'styled-components'
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST)
 
@@ -14,23 +15,25 @@ server
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .get('/*', (req, res) => {
     const context = {}
-    
+    const sheet = new ServerStyleSheet()
+
     // Create Apollo client for the request
     const client = getClient({
       ssrMode: true,
       fetch: fetch
     })
     
-    renderToStringWithData(
+    renderToStringWithData(sheet.collectStyles(
       <StaticRouter context={context} location={req.url}>
         <App client={client} />
       </StaticRouter>
-    )
+    ))
       .then(markup => {
         if (context.url) {
           res.redirect(context.url)
         } else {
           const initialState = client.extract()
+          const styleTags = sheet.getStyleTags() 
 
           res.status(200).send(
             `<!doctype html>
@@ -54,6 +57,7 @@ server
         <body>
             <div id="root">${markup}</div>
             <script>window.__APOLLO_STATE__=${JSON.stringify(initialState).replace(/</g, '\\u003c')}</script>
+            ${styleTags}
             <!-- Global site tag (gtag.js) - Google Analytics -->
             <!-- Replace GA tag with your own - this one tracks graze installs -->
             <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138092593-2"></script>

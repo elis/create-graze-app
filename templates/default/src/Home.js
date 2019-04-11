@@ -1,11 +1,11 @@
-import React from 'react';
+import React from 'react'
+import styled from 'styled-components'
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-import './Home.css';
 
 const Home = ({data: { site, loading, error }, ...props}) => {
   return (
-    <div className="Home">
+    <HomeEl className="Home">
       <div className="Home-header">
         <BrandIcon dark className="Home-logo" alt="logo" width={256} height={256} />
         <h2>Welcome to Graze</h2>
@@ -24,7 +24,7 @@ const Home = ({data: { site, loading, error }, ...props}) => {
           <a href="https://github.com/elis/graze/issues">Issues</a>
         </li>
       </ul>
-    </div>
+    </HomeEl>
   );
 }
 
@@ -63,3 +63,41 @@ const BrandIcon = ({dark, ...props}) => typeof dark !== 'undefined'
   <path d="M461.5 15.9997L352.19 15.9996L181.5 299.574L352.534 582L460.81 582L290.81 299.574L461.5 15.9997Z" fill="#F5F5F5"/>
   </g>
   </svg>
+
+
+const HomeEl = styled.div`
+  text-align: center;
+  .Home-logo {
+    animation: Home-logo-spin infinite 20s linear;
+    height: 80px;
+  }
+
+  .Home-header {
+    background-color: #222;
+    height: 150px;
+    padding: 20px;
+    color: white;
+  }
+
+  .Home-intro {
+    font-size: large;
+  }
+
+  .Home-resources {
+    list-style: none;
+  }
+
+  .Home-resources > li {
+    display: inline-block;
+    padding: 1rem;
+  }
+
+  @keyframes Home-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+`
