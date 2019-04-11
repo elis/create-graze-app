@@ -1,9 +1,8 @@
-import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import React from 'react'
 import { ApolloProvider } from 'react-apollo'
 import { createGlobalStyle } from 'styled-components'
 
-import Home from './Home';
+import Site from './site'
 
 const Styles = createGlobalStyle`
   body {
@@ -17,11 +16,9 @@ const App = ({client, ...props}) => (
   <React.Fragment>
     <Styles />
     <ApolloProvider client={client}>
-      <Switch>
-        <Route exact path="/" component={Home} />
-      </Switch>
+      <Site />
     </ApolloProvider>
   </React.Fragment>
 );
 
-export default App;
+export default App
