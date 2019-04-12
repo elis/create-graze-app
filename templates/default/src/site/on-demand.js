@@ -12,10 +12,7 @@ export const onDemand = (page, path, preload) => {
 
       // Helps debugging
       if (!module.default) {
-        throw {
-          code: 'MODULE_EMPTY',
-          message: 'Module was empty - Module build failed?'
-        }
+        throw new Error('Module was empty - Module build failed?')
       }
 
       return {Loaded: module.default}
