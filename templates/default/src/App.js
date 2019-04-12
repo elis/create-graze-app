@@ -13,12 +13,12 @@ const Styles = createGlobalStyle`
 `
 
 const App = ({client, ...props}) => (
-  <React.Fragment>
-    <Styles />
-    <ApolloProvider client={client}>
+  <ApolloProvider client={client}>
+    <React.Fragment>
+      <Styles />
       <Site />
-    </ApolloProvider>
-  </React.Fragment>
+    </React.Fragment>
+  </ApolloProvider>
 );
 
 export default App

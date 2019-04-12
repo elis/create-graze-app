@@ -1,4 +1,3 @@
-import App from './App'
 import React from 'react'
 import { StaticRouter } from 'react-router-dom'
 import express from 'express'
@@ -14,6 +13,7 @@ server
   .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR))
   .get('/*', (req, res) => {
+    const App = require('./App').default
     const context = {}
     const sheet = new ServerStyleSheet()
 
@@ -22,7 +22,7 @@ server
       ssrMode: true,
       fetch: fetch
     })
-    
+
     renderToStringWithData(sheet.collectStyles(
       <StaticRouter context={context} location={req.url}>
         <App client={client} />
@@ -37,45 +37,42 @@ server
 
           res.status(200).send(
             `<!doctype html>
-        <html lang="">
-        <head>
-            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-            <meta charset="utf-8" />
-            <title>Welcome to Graze</title>
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            ${
-              assets.client.css
-                ? `<link rel="stylesheet" href="${assets.client.css}">`
-                : ''
-            }
-            ${
-              process.env.NODE_ENV === 'production'
-                ? `<script src="${assets.client.js}" defer></script>`
-                : `<script src="${assets.client.js}" defer crossorigin></script>`
-            }
-        </head>
-        <body>
-            <div id="root">${markup}</div>
-            <script>window.__APOLLO_STATE__=${JSON.stringify(initialState).replace(/</g, '\\u003c')}</script>
-            ${styleTags}
-            <!-- Global site tag (gtag.js) - Google Analytics -->
-            <!-- Replace GA tag with your own - this one tracks graze installs -->
-            <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138092593-2"></script>
-            <script>
-              window.dataLayer = window.dataLayer || []
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date())
-              
-              gtag('config', 'UA-138092593-2')
-              </script>
-        </body>
-    </html>`
+<html lang="">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8" />
+    <title>Welcome to Graze</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    ${
+      assets.client.css
+        ? `<link rel="stylesheet" href="${assets.client.css}">`
+        : ''
+    }
+    ${
+      process.env.NODE_ENV === 'production'
+        ? `<script src="${assets.client.js}" defer></script>`
+        : `<script src="${assets.client.js}" defer crossorigin></script>`
+    }
+  </head>
+  <body>
+    <div id="root">${markup}</div>
+    <script>window.__APOLLO_STATE__=${JSON.stringify(initialState).replace(/</g, '\\u003c')}</script>
+    ${styleTags}
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <!-- Replace GA tag with your own - this one tracks graze installs -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138092593-2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || []
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date())
+      
+      gtag('config', 'UA-138092593-2')
+    </script>
+  </body>
+</html>`
           )
         }
-
       }) 
-
-
   })
   
 export default server

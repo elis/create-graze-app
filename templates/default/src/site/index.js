@@ -1,7 +1,8 @@
 import { graphql } from 'react-apollo'
 import gql from 'graphql-tag'
-
 import Routing from './routing'
+
+export { SiteContext } from './routing'
 
 const page = gql`
 {
@@ -12,11 +13,12 @@ const page = gql`
     pages {
       title
       description
-      content
       slug
     }
   }
 }
 `
 
-export default graphql(page)(Routing)
+export default graphql(page, {
+  options: {errorPolicy: 'all'}
+})(Routing)

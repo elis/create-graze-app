@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 import tachyon from 'tachyons-components'
 import 'tachyons/css/tachyons.css'
+
+import { SiteContext } from '../../site'
 
 export default props => (
   <PageEl className='main-view'>
@@ -14,44 +16,45 @@ export default props => (
   </PageEl>
 )
 
-const HeaderEl = styled.header`
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-`
-const PageEl = styled.div`
-  ${HeaderEl} + * {
-    &::before {
-      content: "";
-      height: 66px;
-      display: block;
-    }
-  }
-`
+const getNavItems = pages => pages && pages.length && pages
+  .filter(({slug}) => slug !== 'index')
+  .map(({slug, title}) => ({slug, title}))
 
-const Header = props => (
-  <HeaderEl className='sans-serif bg-dark-gray'>
-    <nav className='dt w-100 mw8 center'> 
-      <div className='dtc w2 v-mid pa3'>
-        <Link to='/' className='tr'>
-          <BrandIcon color='white' dark width={28} height={28} className='dtc dib' />
-          <BrandWordmark height={20} color='white' className='dtc dib' />
-        </Link>
-        {/* <a href='/' className='dib w2 h2 pa1 ba b--white-90 grow-large border-box'>
-          <svg className='link white-90 hover-white' viewBox='0 0 32 32' style={{fill:'currentcolor'}}><title>skull icon</title><path d='M16 0 C6 0 2 4 2 14 L2 22 L6 24 L6 30 L26 30 L26 24 L30 22 L30 14 C30 4 26 0 16 0 M9 12 A4.5 4.5 0 0 1 9 21 A4.5 4.5 0 0 1 9 12 M23 12 A4.5 4.5 0 0 1 23 21 A4.5 4.5 0 0 1 23 12'></path></svg>
-        </a> */}
-      </div>
-      <div className='dtc v-mid tr pa3'>
-        <a className='f6 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3' href='/' >How it Works</a> 
-        <a className='f6 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3' href='/' >Pricing</a> 
-        <a className='f6 fw4 hover-white no-underline white-70 dn dib-l pv2 ph3' href='/' >About</a> 
-        <a className='f6 fw4 hover-white no-underline white-70 dn dib-l pv2 ph3' href='/' >Careers</a> 
-        <a className='f6 fw4 hover-white no-underline white-70 dib ml2 pv2 ph3 ba' href='/' >Sign Up</a> 
-      </div>
-    </nav>
-  </HeaderEl>
-)
+const Header = props => {
+  const site = useContext(SiteContext)
+  const [nav, setNav] = useState(getNavItems(site && site.pages))
+
+  useEffect(() => {
+    if (site && site.pages && site.pages.length) {
+      setNav(getNavItems(site.pages))
+    }
+  }, [site && site.pages])
+
+  return (
+    <HeaderEl className='sans-serif bg-dark-gray'>
+      <NavEl> 
+        <BrandCell>
+          <NavLink to='/' className='flex items-center'>
+            <BrandIcon color='white' dark width={28} height={28} className='dib mr2' />
+            <BrandWordmark height={16} color='white' className='dib' />
+          </NavLink>
+        </BrandCell>
+        <NavCell>
+          {nav && !!nav.length && nav.map((item, i) => (
+            <NavHref key={`nav ${i}`} className='f6 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3' to={`/${item.slug}`}>{item.title}</NavHref> 
+          ))}
+          <a className='f6 fw4 hover-white no-underline white-70 dib ml2 pv2 ph3 ba' href='http://graze.site' >Graze HQ</a> 
+        </NavCell>
+      </NavEl>
+    </HeaderEl>
+  )
+}
+const BrandCell = tachyon('div')`dtc dt w2 v-mid pa3`
+const NavCell = tachyon('div')`dtc v-mid tr pa3`
+
+const NavEl = tachyon('nav')`
+  dt w-100 mw8 center
+`
 
 const BrandIcon = ({dark, ...props}) => typeof dark !== 'undefined'
   ? <svg {...props} viewBox="0 0 599 599" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -83,3 +86,42 @@ const BrandWordmark = ({color, ...props}) => (
   </svg>
 
 )
+
+const NL = props => <NavLink {...props} />
+const NavHref = styled(NL)`
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-top: 4px solid;
+    border-top-color: inherit;
+    opacity: 0;
+  }
+  &.active {
+    &::after {
+      opacity: 1;
+    }
+  }
+`
+
+const HeaderEl = styled.header`
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  background-color: #333;
+  min-height: 66px;
+  color: #FFF;
+`
+const PageEl = styled.div`
+  ${HeaderEl} + * {
+    &::before {
+      content: "";
+      height: 66px;
+      display: block;
+    }
+  }
+`
