@@ -11,6 +11,7 @@ const createGrazeApp = lib.createGrazeApp;
 let projectName;
 let herokuApp;
 let graphCms;
+let upgrade;
 
 program
   .version(pkg.version)
@@ -19,12 +20,14 @@ program
   .option('-e, --example <example-path>', messages.exampleHelp())
   .option('-a, --app <heroku-app>', messages.herokuAppHelp())
   .option('-c, --cms <graphcms-api>', messages.herokuAppHelp())
+  .option('-u, --upgrade', messages.upgrade())
   .allowUnknownOption()
   .on('--help', messages.help)
   .action(function(name, app, cms, cmd) {
     projectName = name;
     herokuApp = app || cmd.app;
     graphCms = cms || cmd.cms;
+    upgrade = cmd.upgrade;
   })
   .parse(process.argv);
 
@@ -34,5 +37,6 @@ createGrazeApp({
   projectName,
   example,
   herokuApp,
-  graphCms
+  graphCms,
+  upgrade
 });
