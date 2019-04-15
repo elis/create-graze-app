@@ -1,28 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export default ({error, details, ...props}) => <ErrorEl>
-  <h1>Error</h1>
-  <p><span>Seach Error DB: <ErrorLink error={error} /></span></p>
-  {error && error.code && (
-    <h4>Code: {error.code}</h4>
-  )}
-  {error && error.message && (
-    <p>{error.message}</p>
-  )}
-  {details && (
-    <React.Fragment>
-      <h4>Details</h4>
-      <pre>{JSON.stringify(details, 1, 1)}</pre>
-    </React.Fragment>
-  )}
-  {error && error.stack && (
-    <React.Fragment>
-      <h4>Stack Trace</h4>
-      <pre>{error.stack}</pre>
-    </React.Fragment>
-  )}
-</ErrorEl>
+export default props => <div><ErrorEl>
+  <ErrorBlock {...props} />
+</ErrorEl></div>
 
 const ErrorEl = styled.div`
   position: absolute;
@@ -46,3 +27,28 @@ const ErrorLink = ({error, ...props}) => {
   const uri = escape(slug).substr(0, 96)
   return <a href={`http://graze.site/errors-db/${uri}`}>{slug}</a>
 }
+
+export const ErrorBlock = ({error, details, ...props}) => (
+  <React.Fragment>
+    <h1>Error</h1>
+    <p><span>Seach Error DB: <ErrorLink error={error} /></span></p>
+    {error && error.code && (
+      <h4>Code: {error.code}</h4>
+    )}
+    {error && error.message && (
+      <p>{error.message}</p>
+    )}
+    {details && (
+      <React.Fragment>
+        <h4>Details</h4>
+        <pre>{JSON.stringify(details, 1, 1)}</pre>
+      </React.Fragment>
+    )}
+    {error && error.stack && (
+      <React.Fragment>
+        <h4>Stack Trace</h4>
+        <pre>{error.stack}</pre>
+      </React.Fragment>
+    )}
+  </React.Fragment>
+)

@@ -3,12 +3,23 @@ import Loading from '../components/loading'
 import ErrorMsg from '../components/error'
 
 const isSSR = typeof window === 'undefined'
-
 const cache = {}
-export const onDemand = (page, path, preload) => {
+
+export const onDemand = (page, path, preload, payload) => {
   const getComp = () => {
     try {
-      const module = require('../pages/' + page)
+      const getPage = () => {
+        const pageToLoad = (payload && payload.page && payload.page.component)
+          || page
+          || 'index'
+
+        try {
+          return require('../pages/' + pageToLoad)
+        } catch (error) {
+          return require('../pages/index')
+        }
+      }
+      const module = getPage()
 
       // Helps debugging
       if (!module.default) {
@@ -18,6 +29,7 @@ export const onDemand = (page, path, preload) => {
       return {Loaded: module.default}
     } catch (error) {
       if (error && error.code === 'MODULE_NOT_FOUND') {
+        console.error('Module not found:', error)
         return {Error: props => <ErrorMsg error={{
           ...error,
           message: `Module "src/pages/${page}" not found`
@@ -41,7 +53,7 @@ export const onDemand = (page, path, preload) => {
     }, [page])
 
     return (Comp && (Comp.Error || Comp.Loaded))
-      ? (Comp.Error ? <Comp.Error {...props} /> : <Comp.Loaded {...props} />)
+      ? (Comp.Error ? <Comp.Error {...props} {...payload} /> : <Comp.Loaded {...props} {...payload} />)
       : <Loading />
   }
 }
@@ -49,3 +61,18 @@ export const onDemand = (page, path, preload) => {
 export default onDemand
 
 export const preload = page => onDemand(page, '', true)
+
+export const OnDemandComponent = ({component, ...props}) => {
+  const Component = onDemandComponent(component)
+  return <Component {...props} />
+}
+
+export const onDemandComponent = (component, payload) => {
+  try {
+    const { default: Component } = require('../components/' + component)
+    return props => <Component {...props} {...payload} />
+  } catch (error) {
+    const { ErrorBlock } = require('../components/error')
+    return props => <ErrorBlock error={error} details={{component, payload}} />
+  }
+}

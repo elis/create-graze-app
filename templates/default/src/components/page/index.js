@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react'
-import styled from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 import { NavLink } from 'react-router-dom'
 
 import tachyon from 'tachyons-components'
@@ -8,43 +8,48 @@ import 'tachyons/css/tachyons.css'
 import { Icon as BrandIcon } from '../graze-brand'
 
 import { SiteContext } from '../../site'
+import Footer from '../footer'
 
 export default ({header, ...props}) => (
   <PageEl className='main-view' {...props}>
-    {header || (<Header>
+    <SSRStyles />
+    <Header>
       <BrandIcon />
-    </Header>)}
+    </Header>
     {props.children}
+    <Footer />
   </PageEl>
 )
 
-const getNavItems = pages => pages && pages.length && pages
+const getNavItems = pages => pages && !!pages.length && pages
   .filter(({slug}) => slug !== 'index')
   .map(({slug, title}) => ({slug, title}))
 
 const Header = props => {
   const site = useContext(SiteContext)
-  const [nav, setNav] = useState(getNavItems(site && site.pages))
+  const pages = site && site.grazePages
+  const [nav, setNav] = useState(getNavItems(pages))
 
   useEffect(() => {
-    if (site && site.pages && site.pages.length) {
-      setNav(getNavItems(site.pages))
+    if (pages && pages.length) {
+      setNav(getNavItems(pages))
     }
-  }, [site && site.pages])
+  }, [pages])
 
   return (
-    <HeaderEl className='sans-serif bg-dark-gray'>
+    <HeaderEl className={`sans-serif bg-dark-gray ${props.className}`}>
       <NavEl> 
         <BrandCell>
           <NavLink to='/' className='flex items-center'>
-            <BrandIcon color='white' width={28} dark height={28} className='bricon dib gold' />
-            <Wordmark height={16} color='white' className='brtext dib washed-yellow' />
+            <BrandIcon color='#19A974' width={28} dark height={28} className='bricon dib green' />
+            <Wordmark height={10} color='white' className='brtext dib near-white' />
           </NavLink>
         </BrandCell>
         <NavCell>
           {nav && !!nav.length && nav.map((item, i) => (
             <NavHref key={`nav ${i}`} className='f6 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3' to={`/${item.slug}`}>{item.title}</NavHref> 
           ))}
+          <NavHref className='f6 fw4 hover-white no-underline white-70 dib ml2 pv2 ph3' to='/__tutorial'>Tutorial</NavHref> 
           <a className='f6 fw4 hover-white no-underline white-70 dib ml2 pv2 ph3 ba' href='http://graze.site' >Graze HQ</a> 
         </NavCell>
       </NavEl>
@@ -54,7 +59,7 @@ const Header = props => {
 const NavCell = tachyon('div')`dtc v-mid tr pa3`
 
 const NavEl = styled(tachyon('nav')`
-  dt w-100 mw8 center
+  dt w-100 mw9 center
 `)`
   display: table;
   color: white;
@@ -94,13 +99,17 @@ const NavHref = styled(NL)`
     bottom: 0;
     left: 0;
     right: 0;
-    border-top: 4px solid;
-    border-top-color: inherit;
-    opacity: 0;
+    border: 3px solid rgba(255, 255, 255, 0);
+    border-top: 0;
+    border-bottom: 1px solid;
+    border-bottom-color: inherit;
+    border-radius: 10px;
+    transition: all 150ms ease-out;
+    transform: scaleX(0);
   }
   &.active {
     &::after {
-      opacity: 1;
+      transform: scaleX(1);
     }
   }
 `
@@ -114,10 +123,11 @@ const BrandCell = styled(BrandCellt)`
   .bricon {
     transform: scale(1);
     transition: all 80ms ease-in-out;
-    color: #FFB700; // gold
+    /* color: #FFB700; // gold */
     margin-right: 0.125rem;
   }
   ${Wordmark} {
+    /* color: #FFB700; // gold */
     > * {
       transform: translateX(6px);
       transition: all 60ms ease-out;
@@ -143,6 +153,7 @@ const BrandCell = styled(BrandCellt)`
       transform: scale(1.45);
     }
     ${Wordmark} {
+      height: 14px;
       > * {
         transform: translateX(60px);
       }
@@ -159,6 +170,7 @@ const HeaderEl = styled.header`
   background-color: #333;
   min-height: 66px;
   color: #FFF;
+  z-index: 100;
 `
 const PageEl = styled.div`
   ${HeaderEl} + * {
@@ -168,4 +180,304 @@ const PageEl = styled.div`
       display: block;
     }
   }
+  button {
+    border: 0;
+  }
+`
+
+const SSRStyles = createGlobalStyle`
+.border-box {
+    box-sizing: border-box;
+}
+
+.cover {
+    background-size: cover !important;
+}
+
+.bg-left {
+    background-repeat: no-repeat;
+    background-position: center left;
+}
+
+.ba {
+    border-style: solid;
+    border-width: 1px;
+}
+
+.b--white {
+    border-color: #fff;
+}
+
+.b--white-90 {
+    border-color: rgba(255, 255, 255, .9);
+}
+
+.b--blue {
+    border-color: #357edd;
+}
+
+.dn {
+    display: none;
+}
+
+.dib {
+    display: inline-block;
+}
+
+.dt {
+    display: table;
+}
+
+.dtc {
+    display: table-cell;
+}
+
+.sans-serif {
+    font-family: -apple-system,
+                 BlinkMacSystemFont,
+                 'avenir next',
+                 avenir,
+                 'helvetica neue',
+                 helvetica,
+                 ubuntu,
+                 roboto,
+                 noto,
+                 'segoe ui',
+                 arial,
+                 sans-serif;
+}
+
+.fw1 {
+    font-weight: 100;
+}
+
+.fw2 {
+    font-weight: 200;
+}
+
+.fw4 {
+    font-weight: 400;
+}
+
+.h2 {
+    height: 2rem;
+}
+
+.lh-title {
+    line-height: 1.25;
+}
+
+.link {
+    text-decoration: none;
+    transition: color .15s ease-in;
+}
+
+.link:link, .link:visited {
+    transition: color .15s ease-in;
+}
+
+.link:hover {
+    transition: color .15s ease-in;
+}
+
+.link:active {
+    transition: color .15s ease-in;
+}
+
+.link:focus {
+    transition: color .15s ease-in;
+    outline: 1px dotted currentColor;
+}
+
+.mw8 {
+    max-width: 64rem;
+}
+
+.w2 {
+    width: 2rem;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.white-90 {
+    color: rgba(255, 255, 255, .9);
+}
+
+.white-80 {
+    color: rgba(255, 255, 255, .8);
+}
+
+.white-70 {
+    color: rgba(255, 255, 255, .7);
+}
+
+.white {
+    color: #fff;
+}
+
+.bg-black-80 {
+    background-color: rgba(0, 0, 0, .8);
+}
+
+.bg-blue {
+    background-color: #357edd;
+}
+
+.hover-white:hover {
+    color: #fff;
+}
+
+.hover-white:focus {
+    color: #fff;
+}
+
+.pa1 {
+    padding: .25rem;
+}
+
+.pa3 {
+    padding: 1rem;
+}
+
+.pb5 {
+    padding-bottom: 4rem;
+}
+
+.pv2 {
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+}
+
+.ph3 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.ml2 {
+    margin-left: .5rem;
+}
+
+.mb0 {
+    margin-bottom: 0;
+}
+
+.mb3 {
+    margin-bottom: 1rem;
+}
+
+.mb4 {
+    margin-bottom: 2rem;
+}
+
+.mt3 {
+    margin-top: 1rem;
+}
+
+.mt4 {
+    margin-top: 2rem;
+}
+
+.no-underline {
+    text-decoration: none;
+}
+
+.tr {
+    text-align: right;
+}
+
+.f2 {
+    font-size: 2.25rem;
+}
+
+.f3 {
+    font-size: 1.5rem;
+}
+
+.f6 {
+    font-size: .875rem;
+}
+
+.center {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.v-mid {
+    vertical-align: middle;
+}
+
+.grow {
+    -moz-osx-font-smoothing: grayscale;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    transition: transform .25s ease-out;
+}
+
+.grow:hover, .grow:focus {
+    transform: scale(1.05);
+}
+
+.grow:active {
+    transform: scale(.9);
+}
+
+.grow-large {
+    -moz-osx-font-smoothing: grayscale;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+    transition: transform .25s ease-in-out;
+}
+
+.grow-large:hover, .grow-large:focus {
+    transform: scale(1.2);
+}
+
+.grow-large:active {
+    transform: scale(.95);
+}
+
+@media screen and (min-width: 30em) {
+    .dib-ns {
+        display: inline-block;
+    }
+}
+
+@media screen and (min-width: 30em) and (max-width: 60em) {
+    .pb6-m {
+        padding-bottom: 8rem;
+    }
+
+    .mt5-m {
+        margin-top: 4rem;
+    }
+}
+
+@media screen and (min-width: 60em) {
+    .bg-center-l {
+        background-repeat: no-repeat;
+        background-position: center center;
+    }
+
+    .dib-l {
+        display: inline-block;
+    }
+
+    .pb7-l {
+        padding-bottom: 16rem;
+    }
+
+    .mt6-l {
+        margin-top: 8rem;
+    }
+
+    .tc-l {
+        text-align: center;
+    }
+
+    .f1-l {
+        font-size: 3rem;
+    }
+}
 `

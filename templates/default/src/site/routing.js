@@ -7,7 +7,7 @@ const isSSR = typeof window === 'undefined'
 
 export default props => {
   const { site, error } = props.data
-  const { pages } = site || {}
+  const { grazePages: pages } = site || {}
 
   // Preload pages
   useEffect(() => {
@@ -17,22 +17,29 @@ export default props => {
           preload(page.slug)
         }
       }
-    }, 1500)
+    }, 2500)
     return () => clearTimeout(preloadTimeout)
   }, [pages])
 
   if (error) {
     const ErrorMsg = require('../components/error').default
-    console.error(error)
+    console.error('Primary routing error:', error)
+
     return <ErrorMsg error={error} />
   }
 
   return (
     <SiteContext.Provider value={site}>
       <Switch>
+        <Route path='/' exact component={onDemand('index', '/', false, {page: site && site.index, site, error})} />
         {pages && !!pages.length && pages.map((page, index) => (
-          <Route key={`site page ${index}`} path={`/${page.slug !== 'index' ? page.slug : ''}`} exact={page.slug === 'index'} component={onDemand(page.slug, `/${page.slug !== 'index' ? page.slug : ''}`)} />
+          <Route
+            key={`site page ${index}`}
+            path={`/${page.slug}`}
+            component={onDemand(page.slug, `/${page.slug}`, false, {page, site, error})} />
         ))}
+        <Route path='/__tutorial' component={onDemand('tutorial', '/__tutorial', false, {pages, site, error})} />
+        <Route path='/' component={onDemand('404')} />
       </Switch>
     </SiteContext.Provider>
   )
