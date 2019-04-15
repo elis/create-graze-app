@@ -11,7 +11,7 @@ export default ({site, page, error, ...props}) => {
   const {attributes, body} = fm(page && page.content)
   return (
     <Page {...props}>
-      {(!attributes || !attributes.sections) && (page.slug === 'root') && (
+      {(!attributes || !attributes.sections) && (!page || (page && page.slug === 'root')) && (
         <React.Fragment>
           <PageCover pitch={{
             title: 'Hello,',

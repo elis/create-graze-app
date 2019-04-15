@@ -13,7 +13,7 @@ const SiteBuild = props => {
   const issues = schemaIssues(parsedTypes)
   if (issues && issues.length) {
     console.log('SCHEME ISSUES')
-    console.log('issues:', issues)
+    console.log('issues:', {issues, parsedTypes})
   }
 
   if (issues && issues.length) {

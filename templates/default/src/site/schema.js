@@ -39,6 +39,7 @@ export const parseTypes = types => {
     const flds = {}
     for (const field of fields) {
       // if (['Site', 'Page'].includes(name)) console.log(`🐝`, `=${name}-${field.name} $ ${field.type.kind}-`, field)
+      // console.log(`🐝`, `=${name}-${field.name} $ ${field.type.kind}-`, field)
       if (field.type.kind === 'LIST') {
         if (field.name.match(/^graze/)) {
           const ofType = field.type.ofType.ofType.name
@@ -64,6 +65,7 @@ export const parseTypes = types => {
       else if (field.type.kind === 'NON_NULL') {
         flds[field.name] = field.type.name
         flds[field.name] = {
+          required: true,
           kind: field.type.ofType.kind,
           ofType: field.type.ofType.name
         }
@@ -98,7 +100,7 @@ export const parseTypes = types => {
 }
 
 export const modelIssues = (parsedTypes, model, options) => {
-  const { requiredFields } = options
+  const { requiredFields, validate } = options
   const Model = parsedTypes[model]
   if (!Model) {
     return [{
@@ -123,6 +125,16 @@ export const modelIssues = (parsedTypes, model, options) => {
           issue: 'Bad type'
         })
       }
+
+      if (validate && validate[fieldName] && typeof validate[fieldName] === 'function') {
+        const invalid = validate[fieldName](field)
+        if (invalid) {
+          trip.push({
+            fieldName,
+            issue: invalid
+          })
+        }
+      }
     } else {
       trip.push({
         fieldName,
@@ -141,6 +153,11 @@ export const schemaIssues = parsedTypes => Object.entries(requiredSchema)
 
 export const requiredSchema = {
   Site: {
+    validate: {
+      name: field => {
+        if (!field.required) return 'Field must be marked as required'
+      }
+    },
     requiredFields: {
       name: 'String',
       description: 'String',

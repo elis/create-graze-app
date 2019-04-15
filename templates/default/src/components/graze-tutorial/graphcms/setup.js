@@ -72,6 +72,8 @@ export const Step = step => props => {
                 addMessage(`⛔️ Missing field: ${fieldName}`)
               } else if (issue === 'Bad type') {
                 addMessage(`⛔️ Incorrect field type: ${fieldName} —\n  Required type: "${data.requiredType}"\n  Found type: "${data.fieldType}"`)
+              } else {
+                addMessage(`⛔ ${issue}: ${fieldName}`)
               }
             }
             addMessage(`⛔️ Check failed — Could not proceed.`, <a href='#log-issues' onClick={e => console.table(siteIssues) || e.preventDefault()}>Log discrepencies to console</a>)
@@ -94,6 +96,8 @@ export const Step = step => props => {
                 addMessage(`⛔️ Missing field: ${fieldName}`)
               } else if (issue === 'Bad type') {
                 addMessage(`⛔️ Incorrect field type: ${fieldName} —\n  Required type: "${data.requiredType}"\n  Found type: "${data.fieldType}"`)
+              } else {
+                addMessage(`⛔ ${issue}: ${fieldName}`)
               }
             }
             addMessage(`⛔️ Check failed — Could not proceed.`, <a href='#log-discrepencies' onClick={e =>
@@ -262,6 +266,13 @@ const content = [
         <p className='times lh-copy measure f4 mt0'>
           <img src={require('./images/add-name-field.gif')} alt='Add site fields' />
         </p>
+        <p>
+          Expand the "<span role='img' aria-label='Down'>🔽</span> Advanced" tab to show the advanced options for the field,
+          and turn on <code>Make field required</code> and <code>Make field unique</code>.
+        </p>
+        <p className='times lh-copy measure f4 mt0'>
+          <img src={require('./images/site-name.png')} alt='Add site fields' />
+        </p>
         <p className='times lh-copy measure f4 mt0'>
           Add another <code>Single line text</code> named <code>Description</code>, and
           add <code>Markdown</code> named <code>Content</code>.
@@ -316,20 +327,14 @@ const content = [
         </p>
         <p className='times lh-copy measure f4 mt0'>
           So let's add that reference to our fields, and when the reference
-          view shows fill it as follows; On the left side where it says "Page"
-          input the following:
+          view shows fill it as follows.
         </p>
-        <RequiredFieldsList>
-          <li><label className='dib w-100 avenir'>Display Name</label> <code>Graze Index</code></li>
-          <li><label className='dib w-100 avenir'>API ID</label> <code>grazeIndex</code></li>
-        </RequiredFieldsList>
-
         <p className='times lh-copy measure f4 mt0'>
           <img src={require('./images/reference-relation.png')} alt='Reference Relationship' />
         </p>
         <p className='times lh-copy measure f4 mt0'>
           In the center there's a relationship picker (ikr?), you want to go
-          a head and pick the <code>One to many relation</code> option (I KNOW RIGHT?).
+          a head and pick the <code>One to many relation</code> option.
         </p>
         <p className='times lh-copy measure f4 mt0'>
           <img src={require('./images/reference-one-to-many.png')} alt='Reference Relationship' />
@@ -342,6 +347,14 @@ const content = [
           <li><label className='dib w-100 avenir'>Display Name</label> <code>Index</code></li>
           <li><label className='dib w-100 avenir'>API ID</label> <code>index</code></li>
         </RequiredFieldsList>
+        <p className='times lh-copy measure f4 mt0'>
+          On the left side where it says "Page" input the following:
+        </p>
+        <RequiredFieldsList>
+          <li><label className='dib w-100 avenir'>Display Name</label> <code>Graze Index</code></li>
+          <li><label className='dib w-100 avenir'>API ID</label> <code>grazeIndex</code></li>
+        </RequiredFieldsList>
+
         <p className='times lh-copy measure f4 mt0'>
           <img src={require('./images/page-index.png')} alt='Page Model - Index field' />
         </p>
