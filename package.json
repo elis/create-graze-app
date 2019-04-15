@@ -8,14 +8,14 @@
   "engines": {
     "node": ">=6"
   },
-  "repository": "elis/create-graze-app",
+  "repository": "elis/graze",
   "bugs": {
-    "url": "https://github.com/elis/create-graze-app/issues"
+    "url": "https://github.com/elis/graze/issues"
   },
   "bin": {
     "create-graze-app": "./bin/create-graze-app"
   },
-  "homepage": "http://graze.site",
+  "homepage": "https://graze.site",
   "dependencies": {
     "ansi-escapes": "^2.0.0",
     "chalk": "^1.1.3",
