@@ -19,7 +19,7 @@ export const Welcome = props => {
 
   return (
     <React.Fragment>
-      {site && !!Object.keys(site).length && (<Redirect push to={`${url}/step-1`} />)}
+      {site && !!Object.keys(site).length && (<Redirect to={`${url}/step-1`} />)}
       <div className='avenir center mw6 pt6 pb6'>
         <h3 className='helvetica' >Welcome to Graze.</h3>
         <p className='georgia' >You've connected a new GraphCMS.</p>

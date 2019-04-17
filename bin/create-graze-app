@@ -17,7 +17,6 @@ program
   .version(pkg.version)
   .arguments('<project-directory> [heroku-app] [graphcms-api]')
   .usage(`${chalk.green('<project-directory>')} [options]`)
-  .option('-e, --example <example-path>', messages.exampleHelp())
   .option('-a, --app <heroku-app>', messages.herokuAppHelp())
   .option('-c, --cms <graphcms-api>', messages.herokuAppHelp())
   .option('-u, --upgrade', messages.upgrade())
