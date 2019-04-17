@@ -157,8 +157,8 @@ export const Step = step => props => {
   return (
     <ArticleFullBleed
         art={content[step - 1].art}
-        h3={content[step - 1].h3}
-        h4={content[step - 1].h4}
+        title={content[step - 1].title}
+        subtitle={content[step - 1].subtitle}
       >
       <Body />
       <div className='avenir measure mt2 tr'>
@@ -212,8 +212,8 @@ const RequiredFieldsList = styled.ul`
 const content = [
   { // Step 1
     art: require('./images/graphcms-art.png'),
-    h3: 'Step 1: Create "Site" Model',
-    h4: 'Graze GraphCMS Setup Tutorial',
+    title: 'Step 1: Create "Site" Model',
+    subtitle: 'Graze GraphCMS Setup Tutorial',
     body: props => (
       <React.Fragment>
         <p className='times lh-copy measure f4 mt0'>
@@ -239,8 +239,8 @@ const content = [
   },
   { // Step 2
     art: require('./images/page.png'),
-    h3: 'Step 2: Add Fields',
-    h4: 'Graze GraphCMS Setup Tutorial',
+    title: 'Step 2: Add Fields',
+    subtitle: 'Graze GraphCMS Setup Tutorial',
     body: props => (
       <React.Fragment>
         <p className='times lh-copy measure f4 mt0'>
@@ -285,8 +285,8 @@ const content = [
   },
   { // Step 3
     art: require('./images/page.png'),
-    h3: 'Step 3: Create "Page" Model',
-    h4: 'Graze GraphCMS Setup Tutorial',
+    title: 'Step 3: Create "Page" Model',
+    subtitle: 'Graze GraphCMS Setup Tutorial',
     body: props => (
       <React.Fragment>
         <p className='times lh-copy measure f4 mt0'>
@@ -296,14 +296,14 @@ const content = [
           <img src={require('./images/create-page-model.png')} alt='Page Model' />
         </p>
         <p className='times lh-copy measure f4 mt0'>
-          And let's add a few fields:.
+          And let's add a few fields:
         </p>
         <p className='times lh-copy measure f4 mt0'>
           <img src={require('./images/page-model.gif')} alt='Page Model' />
         </p>
         <RequiredFieldsList>
           <li><label className='dib w-100 avenir'>Title</label> <code>#title</code>, <code>String</code>, <code>Single line text</code></li>
-          <li><label className='dib w-100 avenir'>Desceription</label> <code>#description</code>, <code>String</code>, <code>Markdown</code></li>
+          <li><label className='dib w-100 avenir'>Description</label> <code>#description</code>, <code>String</code>, <code>Markdown</code></li>
           <li><label className='dib w-100 avenir'>Content</label> <code>#content</code>, <code>String</code>, <code>Markdown</code></li>
           <li><label className='dib w-100 avenir'>Slug</label> <code>#slug</code>, <code>String</code>, <code>Single line text</code>, <code>Required</code>, <code>Unique</code></li>
         </RequiredFieldsList>

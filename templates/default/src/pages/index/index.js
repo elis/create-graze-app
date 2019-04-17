@@ -9,6 +9,7 @@ export default ({site, page, error, ...props}) => {
   const { OnDemandComponent } = require('../../site/on-demand')
 
   const {attributes, body} = fm(page && page.content)
+
   return (
     <Page {...props}>
       {(!attributes || !attributes.sections) && (!page || (page && page.slug === 'root')) && (
@@ -39,7 +40,9 @@ export default ({site, page, error, ...props}) => {
         attributes.sections
           .map(section => Object.entries(section))
           .map(([[comp, options]], index) => (
-            <OnDemandComponent key={`page section ${index}`} component={comp} page={page} site={site} {...options} />
+            <OnDemandComponent
+              key={`page section ${index}`}
+              component={comp} page={page} site={site} attributes={attributes} {...options} />
           )
       )}
       {body && (

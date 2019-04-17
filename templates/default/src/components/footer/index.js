@@ -1,13 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 export default props => (
-  <Footer className="pv4 ph3 ph5-m ph6-l mid-gray">
-    <small className="f6 db tc">Est. 2019 <b className="ttu">Graze</b>., Our Rights Reserved</small>
-    <div className="tc mt3">
-      <a href="/language/" title="Language" className="f6 dib ph2 link mid-gray dim">Language</a>
-      <a href="/terms/"    title="Terms" className="f6 dib ph2 link mid-gray dim">Terms of Use</a>
-      <a href="/privacy/"  title="Privacy" className="f6 dib ph2 link mid-gray dim">Privacy</a>
+  <Footer className='pv4 ph3 ph5-m ph6-l mid-gray'>
+    <small className='f6 db tc'>Est. 2019 <b className='ttu'>Graze</b>., Created by: Eli Sklar</small>
+    <div className='tc mt3'>
+      <a href='https://github.com/elis/graze' title='Github Repository' className='f6 dib ph2 link mid-gray dim'>Github</a>
+      <Link to='/features' title='About Graze' className='f6 dib ph2 link mid-gray dim'>About Graze</Link>
     </div>
   </Footer>
 )

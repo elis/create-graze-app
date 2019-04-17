@@ -3,8 +3,9 @@ import { StaticRouter } from 'react-router-dom'
 import express from 'express'
 import { getClient } from './services/graphcms'
 import { renderToStringWithData } from 'react-apollo'
-import fetch from 'node-fetch'
+import axios from 'axios'
 import { ServerStyleSheet } from 'styled-components'
+import { Helmet } from 'react-helmet'
 
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST)
 
@@ -20,28 +21,31 @@ server
     // Create Apollo client for the request
     const client = getClient({
       ssrMode: true,
-      fetch: fetch
+      fetch: axios
     })
 
-    renderToStringWithData(sheet.collectStyles(
-      <StaticRouter context={context} location={req.url}>
-        <App client={client} />
-      </StaticRouter>
-    ))
-      .then(markup => {
-        if (context.url) {
-          res.redirect(context.url)
-        } else {
-          const initialState = client.extract()
-          const styleTags = sheet.getStyleTags() 
+    if (context.url) {
+      res.redirect(context.url)
+    } else {
+      renderToStringWithData(sheet.collectStyles(
+        <StaticRouter context={context} location={req.url}>
+          <App client={client} />
+        </StaticRouter>
+      ))
+        .then(markup => {
+            const initialState = client.extract()
+            const styleTags = sheet.getStyleTags()
+            const helmet = Helmet.renderStatic()
 
-          res.status(200).send(
-            `<!doctype html>
+            res.status(200).send(
+              `<!doctype html>
 <html lang="">
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta charset="utf-8" />
-    <title>Welcome to Graze</title>
+    ${helmet.title.toString() || 'Welcome to Graze'}
+    ${helmet.meta.toString()}
+    ${helmet.link.toString()}
     <meta name="viewport" content="width=device-width, initial-scale=1">
     ${
       assets.client.css
@@ -70,9 +74,9 @@ server
     </script>
   </body>
 </html>`
-          )
-        }
+        )
       }) 
+    }
   })
   
 export default server

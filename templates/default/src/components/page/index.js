@@ -47,10 +47,10 @@ const Header = props => {
         </BrandCell>
         <NavCell>
           {nav && !!nav.length && nav.map((item, i) => (
-            <NavHref key={`nav ${i}`} className='f6 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3' to={`/${item.slug}`}>{item.title}</NavHref> 
+            <NavHref key={`nav ${i}`} className='f6 fw4 hover-white no-underline ml2 white-70 dn dib-ns pv2 ph3' to={`/${item.slug}`}>{item.title}</NavHref> 
           ))}
           <NavHref className='f6 fw4 hover-white no-underline white-70 dib ml2 pv2 ph3' to='/__tutorial'>Tutorial</NavHref> 
-          <a className='f6 fw4 hover-white no-underline white-70 dib ml2 pv2 ph3 ba' href='http://graze.site' >Graze HQ</a> 
+          <a className='f6 fw4 hover-white no-underline white-70 dib ml2 pv2 ph3 ba' href='https://github.com/elis/graze'>GitHub</a> 
         </NavCell>
       </NavEl>
     </HeaderEl>
@@ -297,9 +297,6 @@ const SSRStyles = createGlobalStyle`
     width: 2rem;
 }
 
-.w-100 {
-    width: 100%;
-}
 
 .white-90 {
     color: rgba(255, 255, 255, .9);

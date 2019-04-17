@@ -6,8 +6,8 @@ export const PagesAndMedia = props => {
   return (
     <ArticleFullBleed
         art={require('../images/upload-media.png')}
-        h3={'Adding Pages and Media'}
-        h4={'Graze GraphCMS Advanced Tutorial'}
+        title={'Adding Pages and Media'}
+        subtitle={'Graze GraphCMS Advanced Tutorial'}
       >
       <p className='times lh-copy measure f4 mt0'>
         Let's add pages to our Graze site - navigate to the "Content"

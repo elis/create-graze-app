@@ -62,13 +62,16 @@ export default onDemand
 
 export const preload = page => onDemand(page, '', true)
 
-export const OnDemandComponent = ({component, ...props}) => {
-  const Component = onDemandComponent(component)
-  return <Component {...props} />
+export const OnDemandComponent = ({component, exp, ...props}) => {
+  const Component = onDemandComponent(component, props, exp)
+  return <Component />
 }
 
-export const onDemandComponent = (component, payload) => {
+export const onDemandComponent = (component, payload, exp) => {
   try {
+    if (exp) {
+      return require('../components/' + component)[exp]
+    }
     const { default: Component } = require('../components/' + component)
     return props => <Component {...props} {...payload} />
   } catch (error) {

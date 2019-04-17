@@ -32,6 +32,7 @@ export const parseTypes = types => {
   const tps = {}
 
   for (const {name, fields} of types) {
+    // console.log(`🐝`, `=${name}- $ `, {fields})
     const tp = {
       name
     }
@@ -104,7 +105,7 @@ export const modelIssues = (parsedTypes, model, options) => {
   const Model = parsedTypes[model]
   if (!Model) {
     return [{
-      modelName: 'Site',
+      modelName: model,
       issue: 'Missing model'
     }]
   }

@@ -6,17 +6,17 @@ const PageAttributes = props => {
   return (
     <ArticleFullBleed
         art={require('../images/graphcms-art.png')}
-        h3={'Setting up page attributes and sections'}
-        h4={'Graze GraphCMS Advanced Tutorial'}
+        title={'Setting up page attributes and sections'}
+        subtitle={'Graze GraphCMS Advanced Tutorial'}
       >
       <p className='times lh-copy measure f4 mt0'>
         Congrats on finishing the basic setup! <span role='img' aria-label='Kiwi'>🥝</span>
       </p>
       <p className='times lh-copy measure f4 mt0'>
-        You now can start hacking with your own prebaked setup by hooking
+        You can now start hacking with your own prebaked setup by hooking
         the right components to the right queries, or you can follow along
         with this part of the tutorial that will give you the tools to
-        really pushing the limits of what your apps can do.
+        really push the limits of what your apps can do.
       </p>
       <p className='times lh-copy measure f4 mt0'>
         First you want to make sure that your API end-point is publicly

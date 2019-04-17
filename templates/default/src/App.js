@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom'
 import { ApolloProvider } from 'react-apollo'
 import { createGlobalStyle } from 'styled-components'
 
-
 import Site from './site'
 
 const Styles = createGlobalStyle`
